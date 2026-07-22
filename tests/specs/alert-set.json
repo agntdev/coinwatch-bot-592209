@@ -1,19 +1,93 @@
 [
   {
-    "name": "Set Alert",
+    "name": "Set Alert with empty watchlist",
     "steps": [
       {
+        "send": { "callback": "alert:set" },
         "expect": [
           {
-            "method": "sendMessage",
+            "method": "editMessageText",
             "payload": {
-              "text": "Configure a new alert rule for a selected coin"
+              "text": "Add coins to your watchlist first, then set alerts on them."
             }
           }
-        ],
-        "send": {
-          "callback": "alert:set"
-        }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Set Alert flow: add coin then set price alert",
+    "steps": [
+      {
+        "send": { "callback": "watchlist:add" },
+        "expect": [
+          { "method": "editMessageText", "payload": { "text": "Pick a coin to add to your watchlist:" } }
+        ]
+      },
+      {
+        "send": { "callback": "watchlist:pick:bitcoin" },
+        "expect": [
+          { "method": "editMessageText", "payload": { "text": "✅ Added Bitcoin (BTC) to your watchlist." } }
+        ]
+      },
+      {
+        "send": { "callback": "alert:set" },
+        "expect": [
+          { "method": "editMessageText", "payload": { "text": "Pick a coin to set an alert on:" } }
+        ]
+      },
+      {
+        "send": { "callback": "alert:coin:bitcoin" },
+        "expect": [
+          { "method": "editMessageText", "payload": { "text": "Set an alert for Bitcoin (BTC):\n\nWhat kind of alert?" } }
+        ]
+      },
+      {
+        "send": { "callback": "alert:type:price_threshold" },
+        "expect": [
+          { "method": "editMessageText", "payload": { "text": "Set a price alert for Bitcoin (BTC).\n\nReply with the target price (e.g. 50000, 3000, 0.50):" } }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Set Alert flow: percent move alert",
+    "steps": [
+      {
+        "send": { "callback": "watchlist:add" },
+        "expect": [
+          { "method": "editMessageText", "payload": { "text": "Pick a coin to add to your watchlist:" } }
+        ]
+      },
+      {
+        "send": { "callback": "watchlist:pick:ethereum" },
+        "expect": [
+          { "method": "editMessageText", "payload": { "text": "✅ Added Ethereum (ETH) to your watchlist." } }
+        ]
+      },
+      {
+        "send": { "callback": "alert:set" },
+        "expect": [
+          { "method": "editMessageText", "payload": { "text": "Pick a coin to set an alert on:" } }
+        ]
+      },
+      {
+        "send": { "callback": "alert:coin:ethereum" },
+        "expect": [
+          { "method": "editMessageText", "payload": { "text": "Set an alert for Ethereum (ETH):\n\nWhat kind of alert?" } }
+        ]
+      },
+      {
+        "send": { "callback": "alert:type:percent_move" },
+        "expect": [
+          { "method": "editMessageText" }
+        ]
+      },
+      {
+        "send": { "callback": "alert:pct:5" },
+        "expect": [
+          { "method": "editMessageText", "payload": { "text": "Ethereum (ETH): alert when price moves ±5%." } }
+        ]
       }
     ]
   }

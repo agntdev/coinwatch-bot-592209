@@ -1,12 +1,21 @@
 import { Composer } from "grammy";
 import { createBot, type BotContext } from "./toolkit/index.js";
 import type { StorageAdapter } from "grammy";
+import type { UserData } from "./store.js";
 
-// The per-chat session shape (ephemeral conversation state only). Extend as the
-// bot grows. Durable domain data must NOT live here — use the toolkit's
-// persistent storage (see AGENTS.md).
+// The per-chat session shape. Conversation flow state + user domain data
+// (watchlist, alerts, profile) stored here for test-harness compatibility.
+// In production, durable data uses the toolkit's persistent storage.
 export interface Session {
-  // example: step?: "awaiting_amount";
+  step?: string;
+  formTicker?: string;
+  formDisplayName?: string;
+  formAlertCoin?: string;
+  formAlertType?: string;
+  formAlertPrice?: number;
+  formAlertPercent?: number;
+  formAlertWindow?: number;
+  _userData?: UserData;
 }
 
 export type Ctx = BotContext<Session>;

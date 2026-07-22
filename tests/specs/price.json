@@ -1,19 +1,33 @@
 [
   {
-    "name": "/price",
+    "name": "/price with no args shows empty state",
     "steps": [
       {
+        "send": { "text": "/price" },
         "expect": [
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Request current price for a specific ticker or all watchlist items"
+              "text": "No coins to check. Add some to your watchlist first."
             }
           }
-        ],
-        "send": {
-          "text": "/price"
-        }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "/price with invalid ticker",
+    "steps": [
+      {
+        "send": { "text": "/price XYZFAKE" },
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "Couldn't find \"XYZFAKE\". Check the ticker and try again."
+            }
+          }
+        ]
       }
     ]
   }

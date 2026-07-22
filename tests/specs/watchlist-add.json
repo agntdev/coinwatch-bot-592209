@@ -1,19 +1,116 @@
 [
   {
-    "name": "Add Coin",
+    "name": "/watchlist shows empty state",
     "steps": [
       {
+        "send": { "text": "/watchlist" },
         "expect": [
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Open coin selection menu with seeded tickers and 'Other' option"
+              "text": "Your watchlist is empty.\n\nTap ➕ Add Coin to start tracking crypto."
             }
           }
-        ],
-        "send": {
-          "callback": "watchlist:add"
-        }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "add coin via seeded picker then view",
+    "steps": [
+      {
+        "send": { "callback": "watchlist:add" },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": { "text": "Pick a coin to add to your watchlist:" }
+          }
+        ]
+      },
+      {
+        "send": { "callback": "watchlist:pick:bitcoin" },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": { "text": "✅ Added Bitcoin (BTC) to your watchlist." }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "view empty watchlist",
+    "steps": [
+      {
+        "send": { "callback": "watchlist:view" },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": {
+              "text": "Your watchlist is empty.\n\nTap ➕ Add Coin to start tracking crypto."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "add coin via custom ticker",
+    "steps": [
+      {
+        "send": { "callback": "watchlist:custom" },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": { "text": "Type the ticker symbol (e.g. BTC, ETH, SOL):" }
+          }
+        ]
+      },
+      {
+        "send": { "text": "ETH" },
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": { "text": "✅ Added Ethereum (ETH) to your watchlist." }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "add coin with invalid ticker shows error",
+    "steps": [
+      {
+        "send": { "callback": "watchlist:custom" },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": { "text": "Type the ticker symbol (e.g. BTC, ETH, SOL):" }
+          }
+        ]
+      },
+      {
+        "send": { "text": "XYZFAKE" },
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": { "text": "Couldn't find \"XYZFAKE\". Check the spelling and try again." }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "remove empty watchlist shows message",
+    "steps": [
+      {
+        "send": { "callback": "watchlist:remove" },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": { "text": "Your watchlist is empty — nothing to remove." }
+          }
+        ]
       }
     ]
   }

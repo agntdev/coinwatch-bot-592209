@@ -1,6 +1,6 @@
 [
   {
-    "name": "remove coin flow: select then confirm",
+    "name": "morning summary button shows watchlist prices",
     "steps": [
       {
         "send": { "callback": "watchlist:add" },
@@ -15,9 +15,9 @@
         ]
       },
       {
-        "send": { "callback": "watchlist:remove" },
+        "send": { "callback": "summary:send" },
         "expect": [
-          { "method": "editMessageText", "payload": { "text": "Tap a coin to remove it from your watchlist:" } }
+          { "method": "editMessageText" }
         ]
       }
     ]

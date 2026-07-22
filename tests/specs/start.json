@@ -7,7 +7,62 @@
         "expect": [
           {
             "method": "sendMessage",
-            "payload": { "text": "👋 Welcome! Tap a button below to get started." }
+            "payload": { "text": "👋 Welcome to CryptoWatch! Tap a button below to get started." }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "menu:main re-renders the welcome",
+    "steps": [
+      {
+        "send": { "callback": "menu:main" },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": { "text": "👋 Welcome to CryptoWatch! Tap a button below to get started." }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "onboarding flow: timezone + summary + quiet hours",
+    "steps": [
+      {
+        "send": { "callback": "onboard:start" },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": { "text": "Let's set up your preferences.\n\nFirst, what timezone are you in?" }
+          }
+        ]
+      },
+      {
+        "send": { "callback": "tz:America/New_York" },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": { "text": "Timezone set to America/New_York.\n\nWould you like a daily morning summary of your watchlist?" }
+          }
+        ]
+      },
+      {
+        "send": { "callback": "summary:on:8" },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": { "text": "Morning summary set for 8:00.\n\nNow, set your quiet hours (alerts won't send during this time):" }
+          }
+        ]
+      },
+      {
+        "send": { "callback": "quiet:23:7" },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": { "text": "All set! Quiet hours set to 23:00–7:00.\n\n👋 Welcome to CryptoWatch! Tap a button below to get started." }
           }
         ]
       }
