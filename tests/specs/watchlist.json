@@ -1,19 +1,17 @@
 [
   {
-    "name": "/watchlist",
+    "name": "/watchlist shows empty state",
     "steps": [
       {
+        "send": { "text": "/watchlist" },
         "expect": [
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Manage watchlist with Add, Remove, and View options"
+              "text": "Your watchlist is empty.\n\nTap ➕ Add Coin to start tracking crypto."
             }
           }
-        ],
-        "send": {
-          "text": "/watchlist"
-        }
+        ]
       }
     ]
   }
